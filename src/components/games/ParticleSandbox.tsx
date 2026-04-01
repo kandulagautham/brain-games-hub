@@ -67,7 +67,7 @@ export const ParticleSandbox: React.FC = () => {
     Matter.Composite.add(engine.world, [...particles, ...walls]);
 
     // Handle interaction
-    const handleEvents = (event: Matter.IEvent<Matter.Runner>) => {
+    const handleEvents = () => {
         const mouse = mouseConstraint.mouse;
         if (!mouse.position.x) return;
 

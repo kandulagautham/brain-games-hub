@@ -15,15 +15,8 @@ export const PathTracer: React.FC = () => {
   const [accuracy, setAccuracy] = useState(100);
   const [speedLevel, setSpeedLevel] = useState<'Zen' | 'Flow' | 'Reflex'>('Flow');
   const [countdown, setCountdown] = useState<number | null>(null);
-  const [bestStats, setBestStats] = useState<Record<string, { accuracy: number }>>(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('brain-games-stats');
-      if (stored) {
-        try { return JSON.parse(stored); } catch { return {}; }
-      }
-    }
-    return {};
-  });
+  const [mounted, setMounted] = useState(false);
+  const [bestStats, setBestStats] = useState<Record<string, { accuracy: number }>>({});
 
   // Speed multipliers
   const speeds = useMemo(() => ({
@@ -32,7 +25,22 @@ export const PathTracer: React.FC = () => {
     Reflex: 0.004
   }), []);
 
-  // Game state refs for performance and stability
+  // Sync with localStorage after mount
+  useEffect(() => {
+    const stored = localStorage.getItem('brain-games-stats');
+    const parsed = stored ? JSON.parse(stored) : {};
+    
+    // Defer all mount-time state updates to next frame to avoid cascading render lint
+    requestAnimationFrame(() => {
+      if (stored) setBestStats(parsed);
+      setMounted(true);
+    });
+  }, []);
+
+  const bestStatsRef = useRef(bestStats);
+  useEffect(() => {
+    bestStatsRef.current = bestStats;
+  }, [bestStats]);
   const pathRef = useRef<Point[]>([]);
   const progressRef = useRef(0);
   const userPosRef = useRef<Point>({ x: 0, y: 0 });
@@ -127,10 +135,10 @@ export const PathTracer: React.FC = () => {
           if (progressRef.current >= 1) {
               // Lap completed!
               const finalAccuracy = accuracyRef.current;
-              const stats = bestStats[speedLevel] || { accuracy: 0 };
+              const stats = bestStatsRef.current[speedLevel] || { accuracy: 0 };
               
               if (finalAccuracy > stats.accuracy) {
-                  const newStats = { ...bestStats, [speedLevel]: { accuracy: finalAccuracy } };
+                  const newStats = { ...bestStatsRef.current, [speedLevel]: { accuracy: finalAccuracy } };
                   setBestStats(newStats);
                   localStorage.setItem('brain-games-stats', JSON.stringify(newStats));
               }
@@ -181,7 +189,7 @@ export const PathTracer: React.FC = () => {
 
     render();
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isPlaying, countdown, bestStats, speedLevel]);
+  }, [isPlaying, countdown, speedLevel]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -208,7 +216,7 @@ export const PathTracer: React.FC = () => {
               </div>
               <div className="text-[10px] uppercase tracking-wider text-slate-400">
                   Best Accuracy: <span className="font-mono text-accent-primary font-bold ml-1">
-                      {bestStats[speedLevel]?.accuracy ? `${Math.round(bestStats[speedLevel].accuracy)}%` : '--'}
+                      {(mounted && bestStats[speedLevel]?.accuracy) ? `${Math.round(bestStats[speedLevel].accuracy)}%` : '--'}
                   </span>
               </div>
           </div>

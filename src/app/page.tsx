@@ -89,7 +89,7 @@ export default function Home() {
                 </div>
                 <div>
                     <h3 className="font-bold text-slate-800">ADHD Friendly</h3>
-                    <p className="text-sm text-slate-500">Designed to help reach "Flow State" through immediate visual and tactile feedback.</p>
+                    <p className="text-sm text-slate-500">Designed to help reach &quot;Flow State&quot; through immediate visual and tactile feedback.</p>
                 </div>
             </div>
             <div className="flex gap-4">
@@ -98,7 +98,7 @@ export default function Home() {
                 </div>
                 <div>
                     <h3 className="font-bold text-slate-800">Aesthetic UI</h3>
-                    <p className="text-sm text-slate-500">A premium "Frosted Glass" interface that feels modern and airy.</p>
+                    <p className="text-sm text-slate-500">A premium &quot;Frosted Glass&quot; interface that feels modern and airy.</p>
                 </div>
             </div>
         </div>
