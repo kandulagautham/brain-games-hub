@@ -1,38 +1,108 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --glass-bg: rgba(255, 255, 255, 0.2);
-  --glass-border: rgba(255, 255, 255, 0.4);
-  --glass-shadow: rgba(0, 0, 0, 0.05);
-  --accent-primary: #8b5cf6;
-  --accent-secondary: #06b6d4;
+  --background: #0F0F23;
+  --foreground: #E2E8F0;
+  --color-primary: #7C3AED;
+  --color-secondary: #A78BFA;
+  --color-cta: #F43F5E;
+  
+  /* Retro specifics */
+  --neon-purple: #7C3AED;
+  --neon-rose: #F43F5E;
+  --neon-cyan: #22D3EE;
+  
+  /* Glass/Terminal textures */
+  --terminal-bg: rgba(15, 15, 35, 0.85);
+  --terminal-border: rgba(124, 58, 237, 0.5);
+  --terminal-glow: rgba(124, 58, 237, 0.3);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-glass: var(--glass-bg);
-  --color-glass-border: var(--glass-border);
-  --color-accent-primary: var(--accent-primary);
-  --color-accent-secondary: var(--accent-secondary);
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-cta: var(--color-cta);
+  --font-heading: "Press Start 2P", system-ui;
+  --font-body: "VT323", monospace;
 }
 
 body {
-  background: radial-gradient(circle at top left, #f3f4f6, #ffffff),
-              radial-gradient(circle at bottom right, #e2e8f0, #ffffff);
+  background-color: var(--background);
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(244, 63, 94, 0.1) 0%, transparent 40%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-attachment: fixed;
   color: var(--foreground);
   min-height: 100vh;
   overflow-x: hidden;
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 @layer utilities {
-  .glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px 0 var(--glass-shadow);
+  .crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.1) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.15;
+    animation: scan 10s linear infinite;
+  }
+
+  @keyframes scan {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
+  }
+
+  .neon-glow-primary {
+    filter: drop-shadow(0 0 5px var(--neon-purple)) drop-shadow(0 0 10px var(--neon-purple));
+  }
+
+  .neon-glow-rose {
+    filter: drop-shadow(0 0 5px var(--neon-rose)) drop-shadow(0 0 10px var(--neon-rose));
+  }
+
+  .terminal-box {
+    background: var(--terminal-bg);
+    border: 1px solid var(--terminal-border);
+    box-shadow: 0 0 15px var(--terminal-glow), inset 0 0 10px rgba(124, 58, 237, 0.1);
+    backdrop-filter: blur(8px);
+  }
+
+  .glitch-text {
+    position: relative;
+    display: inline-block;
+  }
+
+  .glitch-text:hover::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: -2px;
+    text-shadow: 2px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 2s infinite linear alternate-reverse;
+  }
+
+  @keyframes glitch-anim {
+    0% { clip: rect(10px, 9999px, 20px, 0); }
+    100% { clip: rect(80px, 9999px, 90px, 0); }
   }
 }
-

@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Press_Start_2P, VT323 } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const pressStart2P = Press_Start_2P({
+  variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["400"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const vt323 = VT323({
+  variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
-  title: "Brain Games Hub - Focus & Sensory Relief",
-  description: "A digital space for ADHD-friendly focus and stress relief games with a premium frosted glass aesthetic.",
+  title: "BRAIN_GAMES_HUB // TERMINAL_v1.0",
+  description: "A digital space for ADHD-friendly focus and stress relief games with a retro-futuristic aesthetic.",
 };
 
 export default function RootLayout({
@@ -25,9 +27,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${pressStart2P.variable} ${vt323.variable} h-full antialiased font-body`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-background text-foreground relative">
+        <div className="crt-overlay" />
+        {children}
+      </body>
     </html>
   );
 }

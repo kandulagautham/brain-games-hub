@@ -110,44 +110,45 @@ export const ParticleSandbox: React.FC = () => {
   }, [interactionMode]);
 
   return (
-    <GlassContainer className="w-full max-w-3xl overflow-hidden mb-12">
-      <div className="flex justify-between items-center mb-6">
+// ... (at top of return)
+    <GlassContainer className="w-full max-w-3xl overflow-hidden mb-8 border-cta/30">
+      <div className="flex justify-between items-center mb-6 border-b border-cta/20 pb-4">
         <div>
-          <h2 className="text-2xl font-bold text-accent-secondary">Particle Flow</h2>
-          <p className="text-sm text-slate-500">Manipulate the digital sand. Pure sensory focus.</p>
+          <h2 className="text-xl font-heading text-cta glitch-text" data-text="PARTICLE_SYS">PARTICLE_SYS</h2>
+          <p className="text-[10px] text-secondary/60 uppercase tracking-widest mt-1">PHYSICS_ENGINE // SANDBOX_MODE</p>
         </div>
         <div className="flex gap-2">
             <button 
                 onClick={() => setInteractionMode('push')}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${interactionMode === 'push' ? 'bg-accent-primary text-white shadow-lg' : 'bg-white/10 text-slate-400'}`}
+                className={`px-4 py-1.5 border font-heading text-[10px] transition-all ${interactionMode === 'push' ? 'bg-cta text-background shadow-[0_0_15px_rgba(244,63,94,0.5)] border-cta' : 'border-cta/20 text-cta/40 hover:bg-cta/5'}`}
             >
-                Push
+                PUSH
             </button>
             <button 
                 onClick={() => setInteractionMode('pull')}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${interactionMode === 'pull' ? 'bg-accent-secondary text-white shadow-lg' : 'bg-white/10 text-slate-400'}`}
+                className={`px-4 py-1.5 border font-heading text-[10px] transition-all ${interactionMode === 'pull' ? 'bg-secondary text-background shadow-[0_0_15px_rgba(167,139,250,0.5)] border-secondary' : 'border-secondary/20 text-secondary/40 hover:bg-secondary/5'}`}
             >
-                Pull
+                PULL
             </button>
         </div>
       </div>
 
-      <div ref={containerRef} className="relative bg-white/5 rounded-xl border border-white/10 cursor-crosshair overflow-hidden">
+      <div ref={containerRef} className="relative bg-black/40 border border-cta/20 cursor-crosshair overflow-hidden">
         <canvas ref={canvasRef} className="w-full h-auto block" />
         
         {/* Satisfying Glow Effect in Center */}
-        <div className="absolute inset-0 pointer-events-none bg-radial-gradient from-transparent via-transparent to-white/5 opacity-50" />
+        <div className="absolute inset-0 pointer-events-none bg-radial-gradient from-transparent via-transparent to-cta/5 opacity-50" />
       </div>
 
       <div className="mt-6 flex justify-between items-center">
-        <div className="text-[10px] uppercase tracking-widest text-slate-300">Physics Engine: Matter.js</div>
-        <div className="flex gap-1">
+        <div className="text-[10px] uppercase tracking-widest text-secondary/40 font-heading">MATTER.JS // CORE_RENDER</div>
+        <div className="flex gap-2">
             {[...Array(5)].map((_, i) => (
                 <motion.div 
                     key={i}
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                    animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
                     transition={{ duration: 2, delay: i * 0.4, repeat: Infinity }}
-                    className="w-1.5 h-1.5 rounded-full bg-accent-secondary/30"
+                    className="w-1 h-1 bg-cta"
                 />
             ))}
         </div>

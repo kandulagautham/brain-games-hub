@@ -206,32 +206,33 @@ export const PathTracer: React.FC = () => {
   };
 
   return (
-    <GlassContainer className="w-full max-w-3xl overflow-hidden">
-      <div className="flex justify-between items-start mb-6">
+// ... (at top of return)
+    <GlassContainer className="w-full max-w-3xl overflow-hidden mb-8">
+      <div className="flex justify-between items-start mb-6 border-b border-primary/20 pb-4">
         <div>
-          <h2 className="text-2xl font-bold text-accent-primary">Path Tracer</h2>
-          <div className="flex flex-wrap gap-x-6 gap-y-1 mt-1">
-              <div className="text-[10px] uppercase tracking-wider text-slate-400">
-                  Speed Mode: <span className="font-mono text-slate-600 font-bold ml-1">{speedLevel}</span>
+          <h2 className="text-xl font-heading text-primary glitch-text" data-text="PATH_TRACER">PATH_TRACER</h2>
+          <div className="flex flex-wrap gap-x-6 gap-y-1 mt-2">
+              <div className="text-[10px] uppercase tracking-wider text-secondary/60">
+                  MODE: <span className="text-primary ml-1">{speedLevel}</span>
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-slate-400">
-                  Best Accuracy: <span className="font-mono text-accent-primary font-bold ml-1">
+              <div className="text-[10px] uppercase tracking-wider text-secondary/60">
+                  BEST: <span className="text-primary ml-1">
                       {(mounted && bestStats[speedLevel]?.accuracy) ? `${Math.round(bestStats[speedLevel].accuracy)}%` : '--'}
                   </span>
               </div>
           </div>
         </div>
-        <div className="flex flex-col items-end gap-2">
-            <div className={`text-xl font-mono font-bold ${accuracy > 80 ? 'text-accent-secondary' : 'text-slate-400'}`}>
-                {Math.round(accuracy)}%
+        <div className="flex flex-col items-end gap-3">
+            <div className={`text-xl font-body ${accuracy > 80 ? 'text-primary' : 'text-secondary/40'}`}>
+                {Math.round(accuracy)}%_ACCURACY
             </div>
             
-            <div className="flex gap-1 p-1 bg-white/10 rounded-lg border border-white/10">
+            <div className="flex gap-1 p-1 bg-primary/5 border border-primary/20">
                 {(['Zen', 'Flow', 'Reflex'] as const).map((lvl) => (
                     <button
                         key={lvl}
                         onClick={() => setSpeedLevel(lvl)}
-                        className={`px-3 py-1 text-[10px] uppercase font-bold rounded-md transition-all ${speedLevel === lvl ? 'bg-white shadow-sm text-accent-primary' : 'hover:bg-white/5 text-slate-400'}`}
+                        className={`px-3 py-1 text-[10px] uppercase font-heading transition-all ${speedLevel === lvl ? 'bg-primary text-background shadow-[0_0_10px_rgba(124,58,237,0.5)]' : 'hover:bg-primary/10 text-secondary/60'}`}
                     >
                         {lvl}
                     </button>
@@ -240,16 +241,16 @@ export const PathTracer: React.FC = () => {
         </div>
       </div>
 
-      <div className={`relative bg-white/5 rounded-xl border border-white/10 overflow-hidden ${isPlaying ? 'cursor-none' : 'cursor-default'}`}>
+      <div className={`relative bg-black/40 border border-primary/20 overflow-hidden ${isPlaying ? 'cursor-none' : 'cursor-default'}`}>
         {!isPlaying && (
-          <div className="absolute inset-0 flex items-center justify-center z-20 backdrop-blur-sm bg-white/5">
+          <div className="absolute inset-0 flex items-center justify-center z-20 backdrop-blur-sm bg-background/60">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={startSession}
-              className="px-8 py-3 bg-accent-primary text-white rounded-full font-bold shadow-lg shadow-accent-primary/20"
+              className="px-8 py-3 bg-primary text-background font-heading text-xs shadow-[0_0_20px_rgba(124,58,237,0.4)]"
             >
-              Start Focus Session
+              INIT_SESSION
             </motion.button>
           </div>
         )}
@@ -261,7 +262,7 @@ export const PathTracer: React.FC = () => {
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1.5, opacity: 1 }}
               exit={{ scale: 2, opacity: 0 }}
-              className="text-8xl font-black text-accent-primary drop-shadow-[0_0_20px_rgba(139,92,246,0.3)]"
+              className="text-6xl font-heading text-primary neon-glow-primary"
             >
               {countdown === 0 ? 'GO!' : countdown}
             </motion.div>
@@ -277,16 +278,16 @@ export const PathTracer: React.FC = () => {
         />
       </div>
 
-      <div className="mt-6 flex justify-between items-center">
+      <div className="mt-6 flex justify-between items-center text-[10px] text-secondary/40">
         <button 
           onClick={() => setIsPlaying(false)}
-          className="text-xs text-slate-400 hover:text-accent-primary transition-colors"
+          className="hover:text-primary transition-colors uppercase font-heading tracking-widest"
         >
-          Reset Session
+          RESET_BIOS
         </button>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
             {[1, 2, 3].map(i => (
-                <div key={i} className={`w-2 h-2 rounded-full ${accuracy > 80 ? 'bg-accent-secondary/40' : 'bg-slate-700'}`} />
+                <div key={i} className={`w-1 h-3 ${accuracy > 80 ? 'bg-primary neon-glow-primary' : 'bg-primary/10'}`} />
             ))}
         </div>
       </div>
